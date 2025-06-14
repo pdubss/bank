@@ -17,6 +17,8 @@ app.use("/users", userRoutes);
 app.use("/transactions", transactionRoutes);
 app.use("/auth", authRoutes);
 
-app.listen(5000, () => {
-  console.log("Server is running on port 5000");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
