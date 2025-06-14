@@ -38,7 +38,7 @@ export const createUser = async (req, res) => {
   const encryptionKey = crypto.randomBytes(32); // Must be 32 characters
   const iv = crypto.randomBytes(16);
 
-  const encryptSSN = (ssn: string): string => {
+  const encryptSSN = (ssn) => {
     const cipher = crypto.createCipheriv(algorithm, encryptionKey, iv);
     let encrypted = cipher.update(ssn);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
@@ -117,7 +117,7 @@ export const createUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
     console.log(id);
@@ -208,18 +208,7 @@ export const updatePassword = async (req, res) => {
   }
 };
 
-export const addFriend = async (
-  req: Request<{
-    id: string;
-    friend: {
-      first_name: string;
-      last_name: string;
-      email: string;
-      phone: string;
-    };
-  }>,
-  res,
-) => {
+export const addFriend = async (req, res) => {
   const { friend, id } = req.body;
   console.log(friend, id);
   if (!friend) res.status(400).json({ message: "Incomplete form submitted" });

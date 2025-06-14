@@ -1,22 +1,9 @@
 import express from "express";
-import { Request, Response, NextFunction } from "express";
+
 import jwt from "jsonwebtoken";
 import { autoLogin, login } from "../controllers/authController";
 
-interface verifyTokenRequest extends Request {
-  user?: {
-    id: number;
-    email: string;
-    firstName: string;
-    lastName: string;
-  };
-}
-
-export const verifyToken = (
-  req: verifyTokenRequest,
-  res: Response,
-  next: NextFunction,
-) => {
+export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer")) {

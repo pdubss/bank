@@ -1,13 +1,8 @@
-import { Request, Response, NextFunction } from "express";
 import pool from "../server/db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const login = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const result = await pool.query(
