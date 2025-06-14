@@ -23,13 +23,16 @@ const Transactions = () => {
   useEffect(() => {
     const getTransactions = async () => {
       try {
-        const res = await fetch("http://localhost:5000/transactions", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/transactions`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           },
-        });
+        );
         const data = await res.json();
         setTransactions(data.transactions);
       } catch (error) {

@@ -45,7 +45,7 @@ export default function Login() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       const response = await fetch(
-        "https://hemeefitmzeejzjrczbv.supabase.co/rest/v1/auth/login",
+        `${import.meta.env.VITE_API_URL}/auth/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

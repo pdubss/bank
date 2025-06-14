@@ -58,7 +58,7 @@ function Profile() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
       const res = await fetch(
-        `https://hemeefitmzeejzjrczbv.supabase.co/rest/v1/users/${id}/updateInfo`,
+        `${import.meta.env.VITE_API_URL}/users/${id}/updateInfo`,
         {
           method: "PATCH",
           headers: {

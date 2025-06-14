@@ -44,7 +44,7 @@ export default function Dashboard() {
     if (depositAmount > 0 && user.firstName) {
       try {
         const response = await fetch(
-          "https://hemeefitmzeejzjrczbv.supabase.co/rest/v1/transactions/deposit",
+          `${import.meta.env.VITE_API_URL}/transactions/deposit`,
           {
             method: "POST",
             headers: {
@@ -81,7 +81,7 @@ export default function Dashboard() {
     }
     try {
       const response = await fetch(
-        "https://hemeefitmzeejzjrczbv.supabase.co/rest/v1/transactions/withdraw",
+        `${import.meta.env.VITE_API_URL}/transactions/withdraw`,
         {
           method: "POST",
           headers: {
@@ -110,7 +110,7 @@ export default function Dashboard() {
       dispatch(requestLoan({ loan: loanAmount, loanPurpose: loanReason }));
       try {
         await fetch(
-          "https://hemeefitmzeejzjrczbv.supabase.co/rest/v1/transactions/requestLoan",
+          `${import.meta.env.VITE_API_URL}/transactions/requestLoan`,
           {
             method: "POST",
             headers: {
@@ -142,17 +142,14 @@ export default function Dashboard() {
       loanPayment <= account.loan
     ) {
       dispatch(payLoan({ amount: loanPayment }));
-      await fetch(
-        "https://hemeefitmzeejzjrczbv.supabase.co/rest/v1/transactions/paybackLoan",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ payment: loanPayment, email: user.email }),
+      await fetch(`${import.meta.env.VITE_API_URL}/transactions/paybackLoan`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify({ payment: loanPayment, email: user.email }),
+      });
     }
 
     if (loanPayment > account.balance)
@@ -178,7 +175,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function getUserInfo() {
       const response = await fetch(
-        "https://hemeefitmzeejzjrczbv.supabase.co/rest/v1/users/getOne",
+        `${import.meta.env.VITE_API_URL}/users/getOne`,
         {
           method: "POST",
           headers: {

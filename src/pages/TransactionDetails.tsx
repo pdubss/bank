@@ -22,7 +22,7 @@ const TransactionDetails = () => {
     const getInfo = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/transactions/${transactionID}`,
+          `${import.meta.env.VITE_API_URL}/transactions/${transactionID}`,
           {
             method: "GET",
             headers: {

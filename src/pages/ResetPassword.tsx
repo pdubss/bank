@@ -21,7 +21,7 @@ export default function ResetPassword() {
   const onSubmitEmail: SubmitHandler<{ email: string }> = async (data) => {
     setEmailSubmitted(true);
     setEmail(data.email);
-    await fetch("http://localhost:5000/users/forgotMy", {
+    await fetch(`${import.meta.env.VITE_API_URL}/users/forgotMy`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -36,7 +36,7 @@ export default function ResetPassword() {
     if (data.confirmPassword === data.password) {
       try {
         const response = await fetch(
-          "http://localhost:5000/users/updatePassword",
+          `${import.meta.env.VITE_API_URL}/users/updatePassword`,
           {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },

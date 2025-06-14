@@ -42,14 +42,17 @@ const TransferModal = ({
   useEffect(() => {
     const getFriend = async () => {
       try {
-        const res = await fetch("http://localhost:5000/users/verifyFriend", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/verifyFriend`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ email: selectedFriend?.email }),
           },
-          body: JSON.stringify({ email: selectedFriend?.email }),
-        });
+        );
         const data = await res.json();
         setFriend(data.friend);
       } catch (error) {
@@ -63,7 +66,7 @@ const TransferModal = ({
     try {
       if (friend && selection === "send") {
         const response = await fetch(
-          "http://localhost:5000/transactions/transfer/send",
+          `${import.meta.env.VITE_API_URL}/transactions/transfer/send`,
           {
             method: "POST",
             headers: {
@@ -81,7 +84,7 @@ const TransferModal = ({
           dispatch(sendMoney({ amount: data.amount }));
         }
       } else if (friend && selection === "request") {
-        await fetch("http://localhost:5000/transactions/request", {
+        await fetch(`${import.meta.env.VITE_API_URL}/transactions/request`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

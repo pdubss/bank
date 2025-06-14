@@ -47,7 +47,7 @@ export default function Transfer() {
     async function getUser() {
       try {
         if (isValid && decodedToken) {
-          const res = await fetch("http://localhost:5000/auth/me", {
+          const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/me`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -79,14 +79,17 @@ export default function Transfer() {
   useEffect(() => {
     async function getUserFinancials() {
       try {
-        const res = await fetch("http://localhost:5000/users/getOne", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/getOne`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ email: user.email }),
           },
-          body: JSON.stringify({ email: user.email }),
-        });
+        );
         const { account_number, balance, id, loan_amount, loan_reason } =
           await res.json();
         dispatch(
@@ -104,7 +107,7 @@ export default function Transfer() {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:5000/users/${user.id}/friends`,
+          `${import.meta.env.VITE_API_URL}/users/${user.id}/friends`,
           {
             method: "GET",
             headers: {
@@ -126,17 +129,20 @@ export default function Transfer() {
 
   const submitHandler: SubmitHandler<TransferFields> = async (data) => {
     try {
-      const response = await fetch("http://localhost:5000/users/friend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/users/friend`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            id: userid,
+            friend: data,
+          }),
         },
-        body: JSON.stringify({
-          id: userid,
-          friend: data,
-        }),
-      });
+      );
       console.log(response.status);
       switch (response.status) {
         case 401:
