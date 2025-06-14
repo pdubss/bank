@@ -27,11 +27,14 @@ const CreateUser = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       //only if email doesn't exist, does the post request go through
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `https://bank-backend-feny.onrender.com/users`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        },
+      );
 
       const newUser = await response.json();
       const { token } = newUser;
