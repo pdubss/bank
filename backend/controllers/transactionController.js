@@ -1,4 +1,4 @@
-import pool from "../server/db";
+import pool from "../server/db.js";
 
 export const deposit = async (req, res) => {
   const { depositAmount, email } = req.body;

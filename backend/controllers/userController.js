@@ -1,10 +1,8 @@
-import pool from "../server/db";
+import pool from "../server/db.js";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
-
-import { Request, Response } from "express";
 
 export const getUser = async (req, res) => {
   try {

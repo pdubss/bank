@@ -1,7 +1,7 @@
 import express from "express";
 
 import jwt from "jsonwebtoken";
-import { autoLogin, login } from "../controllers/authController";
+import { autoLogin, login } from "../controllers/authController.js";
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;

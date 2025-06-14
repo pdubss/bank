@@ -7,8 +7,8 @@ import {
   requestLoan,
   transferSend,
   withdraw,
-} from "../controllers/transactionController";
-import { verifyToken } from "./authRoutes";
+} from "../controllers/transactionController.js";
+import { verifyToken } from "./authRoutes.js";
 
 const router = express.Router();
 

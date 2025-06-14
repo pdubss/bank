@@ -9,8 +9,8 @@ import {
   updateInfo,
   updatePassword,
   verifyFriend,
-} from "../controllers/userController";
-import { verifyToken } from "./authRoutes";
+} from "../controllers/userController.js";
+import { verifyToken } from "./authRoutes.js";
 
 const router = express.Router();
 
