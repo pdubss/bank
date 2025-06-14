@@ -17,14 +17,6 @@ app.use("/users", userRoutes);
 app.use("/transactions", transactionRoutes);
 app.use("/auth", authRoutes);
 
-//get friends
-app.post("/users/:id/friends", (req, res) => {
-  const { id } = req.params;
-  res.status(400).json({
-    id,
-  });
-});
-
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
