@@ -17,7 +17,9 @@ export default function Header() {
 
   return (
     <header className="flex w-screen items-center justify-between bg-blue-600 p-4 text-white">
-      <Link to="/dashboard">🏦 APP</Link>
+      <Link className="text-2xl font-bold" to="/dashboard">
+        🏦 BANK OF PERRY APP
+      </Link>
       <div className="flex items-center gap-8">
         <NavLink className="hidden sm:flex" to="/about">
           ABOUT

@@ -194,6 +194,7 @@ export default function Dashboard() {
           },
         );
         const data = await res.json();
+        console.log(data.transactions);
         setTransactions(data.transactions);
       } catch (error) {
         setTransactionsLoading(false);
