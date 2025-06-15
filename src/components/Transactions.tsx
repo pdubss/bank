@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { transaction } from "../pages/Dashboard";
 
 interface TransactionsProps {
-  transactions: transaction[] | null;
+  transactions: transaction[];
 }
 
 const Transactions = ({ transactions }: TransactionsProps) => {
@@ -13,7 +13,7 @@ const Transactions = ({ transactions }: TransactionsProps) => {
       </h2>
 
       <div className="my-auto flex flex-col">
-        {transactions ? (
+        {transactions.length > 0 ? (
           <ul>
             {transactions.map((transaction, index) => {
               return (

@@ -24,7 +24,7 @@ export const deposit = async (req, res) => {
     );
 
     const transaction = await pool.query(
-      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3) RETURNING amount, type, created_at",
+      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3) RETURNING amount, type, created_at, transaction_id",
       [id, depositAmount, "deposit"],
     );
 

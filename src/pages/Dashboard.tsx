@@ -27,16 +27,10 @@ export interface Details {
 }
 
 export interface transaction {
-  user_id: number;
   amount: number;
   type: string;
   created_at: string;
-  recipient_id: string;
   transaction_id: string;
-  account_number: string;
-  loan_reason?: string;
-  setDetails: React.Dispatch<React.SetStateAction<Details | null>>;
-  setShowDetails: (x: boolean) => void;
 }
 
 export default function Dashboard() {
@@ -54,7 +48,7 @@ export default function Dashboard() {
   const [loanAmount, setLoanAmount] = useState(0);
   const [loanReason, setLoanReason] = useState("");
   const [loanPayment, setLoanPayment] = useState(0);
-  const [transactions, setTransactions] = useState<transaction[] | null>(null);
+  const [transactions, setTransactions] = useState<transaction[]>([]);
 
   const depositHandler = async () => {
     if (depositAmount > 0 && user.firstName) {
@@ -75,11 +69,19 @@ export default function Dashboard() {
           },
         );
         const data = await response.json();
-        console.log(data);
 
         if (response.ok) {
           dispatch(deposit({ amount: Number(depositAmount) }));
         }
+        setTransactions((prevTransactions) => [
+          ...prevTransactions,
+          {
+            amount: data.amount,
+            type: data.type,
+            created_at: data.created_at,
+            transaction_id: data.transaction_id,
+          },
+        ]);
       } catch (error) {
         console.error(error);
       }
