@@ -121,12 +121,12 @@ export const paybackLoan = async (req, res) => {
       "UPDATE financialinfo SET loan_reason = CASE WHEN loan_amount = 0 THEN '' ELSE loan_reason END WHERE user_id = $1",
       [id],
     );
-    await pool.query(
-      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3)",
+    const transaction = await pool.query(
+      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3) RETURNING created_at, amount, type",
       [id, payment, "payLoan"],
     );
 
-    res.status(200).json({ message: "loan payment recieved" });
+    res.status(200).json({ transaction: transaction.rows[0] });
   } catch (error) {
     console.error(error.message);
   }
