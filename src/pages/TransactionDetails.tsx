@@ -94,7 +94,7 @@ const TransactionDetails = () => {
             <strong>Transaction Type:</strong> {convertedType}{" "}
           </span>{" "}
           <span>
-            <strong>Transaction Amount:</strong>{" "}
+            <strong>Transaction Amount:</strong> $
             {transaction?.transactionInfo.amount}{" "}
           </span>
           {transaction?.recipient && (

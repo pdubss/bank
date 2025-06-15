@@ -72,16 +72,16 @@ export default function Dashboard() {
 
         if (response.ok) {
           dispatch(deposit({ amount: Number(depositAmount) }));
+          setTransactions((prevTransactions) => [
+            ...prevTransactions,
+            {
+              amount: data.transaction.amount,
+              type: data.transaction.type,
+              created_at: data.transaction.created_at,
+              transaction_id: data.transaction.transaction_id,
+            },
+          ]);
         }
-        setTransactions((prevTransactions) => [
-          ...prevTransactions,
-          {
-            amount: data.transaction.amount,
-            type: data.transaction.type,
-            created_at: data.transaction.created_at,
-            transaction_id: data.transaction.transaction_id,
-          },
-        ]);
       } catch (error) {
         console.error(error);
       }
@@ -114,9 +114,19 @@ export default function Dashboard() {
           }),
         },
       );
+      const data = await response.json();
 
       if (response.ok) {
         dispatch(withdraw({ amount: Number(withdrawalAmount) }));
+        setTransactions((prevTransactions) => [
+          ...prevTransactions,
+          {
+            amount: data.transaction.amount,
+            type: data.transaction.type,
+            created_at: data.transaction.created_at,
+            transaction_id: data.transaction.transaction_id,
+          },
+        ]);
       }
     } catch (error) {
       console.error(error);
@@ -129,7 +139,7 @@ export default function Dashboard() {
     if (Number(loanAmount) > 0 && loanReason !== "") {
       dispatch(requestLoan({ loan: loanAmount, loanPurpose: loanReason }));
       try {
-        await fetch(
+        const res = await fetch(
           `${import.meta.env.VITE_API_URL}/transactions/requestLoan`,
           {
             method: "POST",
@@ -144,6 +154,18 @@ export default function Dashboard() {
             }),
           },
         );
+        const data = await res.json();
+        if (res.ok) {
+          setTransactions((prevTransactions) => [
+            ...prevTransactions,
+            {
+              amount: data.transaction.amount,
+              type: data.transaction.type,
+              created_at: data.transaction.created_at,
+              transaction_id: data.transaction.transaction_id,
+            },
+          ]);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -161,15 +183,34 @@ export default function Dashboard() {
       loanPayment <= account.balance &&
       loanPayment <= account.loan
     ) {
-      dispatch(payLoan({ amount: loanPayment }));
-      await fetch(`${import.meta.env.VITE_API_URL}/transactions/paybackLoan`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ payment: loanPayment, email: user.email }),
-      });
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/transactions/paybackLoan`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ payment: loanPayment, email: user.email }),
+          },
+        );
+        const data = await res.json();
+        if (res.ok) {
+          dispatch(payLoan({ amount: loanPayment }));
+          setTransactions((prevTransactions) => [
+            ...prevTransactions,
+            {
+              amount: data.transaction.amount,
+              type: data.transaction.type,
+              created_at: data.transaction.created_at,
+              transaction_id: data.transaction.transaction_id,
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error("Error processing loan payment", error);
+      }
     }
 
     if (loanPayment > account.balance)
@@ -194,7 +235,6 @@ export default function Dashboard() {
           },
         );
         const data = await res.json();
-        console.log(data.transactions);
         setTransactions(data.transactions);
       } catch (error) {
         setTransactionsLoading(false);
