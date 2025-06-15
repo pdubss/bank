@@ -18,7 +18,7 @@ export default function Header() {
   return (
     <header className="flex w-screen items-center justify-between bg-blue-600 p-4 text-white">
       <Link to="/dashboard">🏦 APP</Link>
-      <div className="flex items-center gap-8">
+      <div className="items-center gap-8 sm:hidden md:flex">
         <NavLink to="/about">ABOUT</NavLink>
         <NavLink to="/tech">TECH</NavLink>
         {user.isLoggedIn ? (
