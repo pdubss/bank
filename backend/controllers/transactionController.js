@@ -172,7 +172,7 @@ export const transferSend = async (req, res) => {
     );
     await pool.query(
       "INSERT INTO transactions (sender_id, amount, type, user_id) VALUES ($1,$2,$3,$4)",
-      [id, amount, "transfer-recieved", friendID],
+      [id, amount, "transfer-received", friendID],
     );
 
     res.status(200).json({ transaction: transaction.rows[0] });

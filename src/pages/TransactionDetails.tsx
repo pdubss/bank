@@ -70,8 +70,8 @@ const TransactionDetails = () => {
       case "transfer-sent":
         convertedType = "Transfer Sent";
         break;
-      case "transfer-recieved":
-        convertedType = "Transfer Recieved";
+      case "transfer-received":
+        convertedType = "Transfer Received";
     }
   }
 
