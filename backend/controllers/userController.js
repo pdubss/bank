@@ -245,6 +245,10 @@ export const updateInfo = async (req, res) => {
   const { firstName, lastName, phone } = req.body;
   const { id } = req.params;
 
+  if (!firstName.length || !lastName || !phone) {
+    return res.status(400).json({ message: "Fields cannot be empty" });
+  }
+
   try {
     await pool.query(
       "UPDATE users SET first_name = $1, last_name =$2, phone =$3 WHERE id = $4",

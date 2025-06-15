@@ -93,7 +93,6 @@ function Profile() {
           type="text"
           defaultValue={user.firstName}
           {...register("firstName", {
-            required: "A first name is required",
             pattern: {
               value: /^[A-Za-z]+([-' ][A-Za-z]+)*$/,
               message: "Invalid name",
@@ -108,7 +107,6 @@ function Profile() {
           label="Last Name"
           defaultValue={user.lastName}
           {...register("lastName", {
-            required: "A last name is required",
             pattern: {
               value: /^[A-Za-z]+([-' ][A-Za-z]+)*$/,
               message: "Invalid name",
@@ -119,13 +117,12 @@ function Profile() {
           <ErrorMessage>{errors.lastName.message}</ErrorMessage>
         )}
         <Input
-          label="number (123-456-7890) format"
+          label="Phone Number"
           type="text"
           defaultValue={user.phone}
           {...register("phone", {
-            required: "A phone number is required",
             pattern: {
-              value: /^\d{3}-\d{3}-\d{4}$/,
+              value: /^(\d{3}-?\d{3}-?\d{4})$/,
               message: "Invalid phone number",
             },
           })}
