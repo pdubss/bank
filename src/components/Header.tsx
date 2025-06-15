@@ -22,9 +22,6 @@ export default function Header() {
         <NavLink className="hidden sm:flex" to="/about">
           ABOUT
         </NavLink>
-        <NavLink className="hidden sm:flex" to="/tech">
-          TECH
-        </NavLink>
         {user.isLoggedIn ? (
           <div className="flex items-center justify-end gap-4">
             <h3>Welcome, {user.user.firstName}</h3>
