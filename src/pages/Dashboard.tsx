@@ -270,7 +270,7 @@ export default function Dashboard() {
           ) : null}
         </div>
       )}
-      <div className="flex h-2/3 w-[22rem] flex-col gap-12 border p-6 md:w-[30rem]">
+      <div className="flex h-2/3 w-[22rem] flex-col gap-16 border p-6 md:w-[30rem]">
         <div>
           <h2 className="border-b text-center text-2xl font-bold">
             Action Center

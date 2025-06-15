@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useTokenChecker from "../utility/useTokenChecker";
 import { Link } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 interface Transaction {
   transactionInfo: { created_at: string; amount: number; type: string };
@@ -14,12 +15,14 @@ interface Transaction {
 }
 
 const TransactionDetails = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const { transactionID } = useParams();
   const { token } = useTokenChecker();
-  const [transaction, setTransaction] = useState<Transaction | null>();
+  const [transaction, setTransaction] = useState<Transaction>();
 
   useEffect(() => {
     const getInfo = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/transactions/${transactionID}`,
@@ -35,7 +38,10 @@ const TransactionDetails = () => {
         console.log(data.transaction);
         setTransaction(data.transaction);
       } catch (error) {
+        setIsLoading(false);
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getInfo();
@@ -72,7 +78,7 @@ const TransactionDetails = () => {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-10 text-center">
       <h2 className="text-xl">Transaction #{transactionID}</h2>
-      {transaction && (
+      {!isLoading && transaction ? (
         <div className="flex flex-col gap-2">
           <span>
             <strong>Date: </strong>
@@ -101,7 +107,10 @@ const TransactionDetails = () => {
             </>
           )}
         </div>
+      ) : (
+        <Spinner />
       )}
+
       <Link className="rounded-md border bg-red-500 px-2 py-1" to="/dashboard">
         BACK
       </Link>
