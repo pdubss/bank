@@ -29,7 +29,9 @@ const Transactions = ({ transactions }: TransactionsProps) => {
             })}
           </ul>
         ) : (
-          <p>User does not have any transactions yet!</p>
+          <p className="text-center">
+            User does not have any transactions yet!
+          </p>
         )}
       </div>
     </div>
