@@ -17,10 +17,12 @@ interface Transaction {
 const TransactionDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { transactionID } = useParams();
-  const { token } = useTokenChecker();
   const [transaction, setTransaction] = useState<Transaction>();
 
+  useTokenChecker();
+
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const getInfo = async () => {
       setIsLoading(true);
       try {
@@ -35,7 +37,6 @@ const TransactionDetails = () => {
           },
         );
         const data = await response.json();
-        console.log(data.transaction);
         setTransaction(data.transaction);
       } catch (error) {
         setIsLoading(false);
@@ -45,7 +46,7 @@ const TransactionDetails = () => {
       }
     };
     getInfo();
-  }, [transactionID, token]);
+  }, [transactionID]);
 
   let convertedDate;
   if (transaction) {
@@ -78,23 +79,25 @@ const TransactionDetails = () => {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-10 text-center">
       <h2 className="text-xl">Transaction #{transactionID}</h2>
-      {!isLoading && transaction ? (
+      {isLoading ? (
+        <Spinner />
+      ) : (
         <div className="flex flex-col gap-2">
           <span>
             <strong>Date: </strong>
             {convertedDate?.toLocaleString()}
           </span>
           <span>
-            <strong>User Account #:</strong> {transaction.user.account_number}{" "}
+            <strong>User Account #:</strong> {transaction?.user.account_number}{" "}
           </span>
           <span>
             <strong>Transaction Type:</strong> {convertedType}{" "}
           </span>{" "}
           <span>
             <strong>Transaction Amount:</strong>{" "}
-            {transaction.transactionInfo.amount}{" "}
+            {transaction?.transactionInfo.amount}{" "}
           </span>
-          {transaction.recipient && (
+          {transaction?.recipient && (
             <>
               <span>
                 <strong> Recipient Account #:</strong>{" "}
@@ -107,8 +110,6 @@ const TransactionDetails = () => {
             </>
           )}
         </div>
-      ) : (
-        <Spinner />
       )}
 
       <Link className="rounded-md border bg-red-500 px-2 py-1" to="/dashboard">
