@@ -12,7 +12,7 @@ const Transactions = ({ transactions }: TransactionsProps) => {
         Transactions
       </h2>
 
-      <div className="flex flex-col justify-start overflow-y-scroll">
+      <div className="flex max-h-[500px] flex-col justify-start overflow-y-scroll">
         {transactions.length > 0 ? (
           <ul>
             {transactions.map((transaction, index) => {
