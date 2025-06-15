@@ -21,9 +21,6 @@ const Transactions = ({ transactions }: TransactionsProps) => {
                   amount={transaction.amount}
                   type={transaction.type}
                   transactionID={transaction.transaction_id}
-                  recipientID={transaction.recipient_id}
-                  loanReason={transaction.loan_reason}
-                  accountNumber={transaction.account_number}
                 />
               );
             })}
@@ -42,9 +39,6 @@ interface transactionProps {
   amount: number;
   type: string;
   transactionID: string;
-  recipientID: string;
-  loanReason?: string;
-  accountNumber: string;
 }
 
 export default Transactions;

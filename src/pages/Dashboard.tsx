@@ -46,7 +46,6 @@ export default function Dashboard() {
   const account = useSelector((store: RootState) => store.account);
   const dispatch = useDispatch();
 
-  useState<Details | null>(null);
   const [depositAmount, setDepositAmount] = useState(0);
   const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [loanAmount, setLoanAmount] = useState(0);
