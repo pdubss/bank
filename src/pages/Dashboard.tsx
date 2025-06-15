@@ -352,10 +352,10 @@ export default function Dashboard() {
           </Link>
         </div>
       </div>
-      {transactionsLoading ? (
-        <Spinner />
-      ) : (
+      {!transactionsLoading && Array.isArray(transactions) ? (
         <Transactions transactions={transactions} />
+      ) : (
+        <Spinner />
       )}
     </div>
   );
