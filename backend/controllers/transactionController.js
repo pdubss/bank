@@ -48,19 +48,17 @@ export const withdraw = async (req, res) => {
     }
     const id = response.rows[0].id;
 
-    const fin = await pool.query(
+    await pool.query(
       "update financialinfo set balance = balance - $1 where user_id = $2 returning balance",
       [amount, id],
     );
-    await pool.query(
-      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3)",
+    const transaction = await pool.query(
+      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3) RETURNING transaction_id, created_at, amount, type",
       [id, amount, "withdrawal"],
     );
 
-    const updatedBalance = fin.rows[0].balance;
     res.status(200).json({
-      message: "Withdrawl successful",
-      updatedBalance,
+      transaction: transaction.rows[0],
     });
   } catch (error) {
     console.error(error);
@@ -91,13 +89,13 @@ export const requestLoan = async (req, res) => {
       [+loan_amount, loan_reason, id],
     );
 
-    await pool.query(
-      "INSERT INTO transactions (user_id, amount, type ) VALUES ($1,$2,$3)",
+    const transaction = await pool.query(
+      "INSERT INTO transactions (user_id, amount, type ) VALUES ($1,$2,$3 RETURNING transaction_id, created_at, type, amount)",
       [id, loan_amount, "takeoutLoan"],
     );
 
     res.status(200).json({
-      message: "Loan granted",
+      transaction: transaction.rows[0],
     });
   } catch (error) {
     console.error(error);
@@ -168,12 +166,12 @@ export const transferSend = async (req, res) => {
       "UPDATE financialinfo SET balance = balance + $1 WHERE user_id =$2 RETURNING balance",
       [amount, friendID],
     );
-    await pool.query(
-      "INSERT INTO transactions (user_id, recipient_id, amount, type) VALUES ($1,$2,$3,$4)",
+    const transaction = await pool.query(
+      "INSERT INTO transactions (user_id, recipient_id, amount, type) VALUES ($1,$2,$3,$4) RETURNING transaction_id, created_at, amount, type",
       [id, friendID, amount, "transfer"],
     );
 
-    res.status(200).json({ message: "Money sent successfully" });
+    res.status(200).json({ transaction: transaction.rows[0] });
   } catch (error) {
     console.error(error);
   }
