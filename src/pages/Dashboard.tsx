@@ -25,6 +25,19 @@ export interface Details {
   loanReason?: string;
 }
 
+export interface transaction {
+  user_id: number;
+  amount: number;
+  type: string;
+  created_at: string;
+  recipient_id: string;
+  transaction_id: string;
+  account_number: string;
+  loan_reason?: string;
+  setDetails: React.Dispatch<React.SetStateAction<Details | null>>;
+  setShowDetails: (x: boolean) => void;
+}
+
 export default function Dashboard() {
   const { isValid, decodedToken, token } = useTokenChecker();
 
@@ -39,6 +52,7 @@ export default function Dashboard() {
   const [loanAmount, setLoanAmount] = useState(0);
   const [loanReason, setLoanReason] = useState("");
   const [loanPayment, setLoanPayment] = useState(0);
+  const [transactions, setTransactions] = useState<transaction[] | null>(null);
 
   const depositHandler = async () => {
     if (depositAmount > 0 && user.firstName) {
@@ -157,6 +171,28 @@ export default function Dashboard() {
 
     if (loanPayment > account.loan) alert("Cannot pay off more than you owe");
   };
+
+  useEffect(() => {
+    const getTransactions = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/transactions`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
+        const data = await res.json();
+        setTransactions(data.transactions);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getTransactions();
+  }, [token]);
 
   useEffect(() => {
     if (isValid && decodedToken) {
@@ -307,7 +343,7 @@ export default function Dashboard() {
           </Link>
         </div>
       </div>
-      <Transactions />
+      <Transactions transactions={transactions} />
     </div>
   );
 }

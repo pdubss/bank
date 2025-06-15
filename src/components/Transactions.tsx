@@ -1,46 +1,11 @@
-import { useEffect, useState } from "react";
-import useTokenChecker from "../utility/useTokenChecker";
-import { Details } from "../pages/Dashboard";
 import { Link } from "react-router-dom";
+import { transaction } from "../pages/Dashboard";
 
-interface transaction {
-  user_id: number;
-  amount: number;
-  type: string;
-  created_at: string;
-  recipient_id: string;
-  transaction_id: string;
-  account_number: string;
-  loan_reason?: string;
-  setDetails: React.Dispatch<React.SetStateAction<Details | null>>;
-  setShowDetails: (x: boolean) => void;
+interface TransactionsProps {
+  transactions: transaction[] | null;
 }
 
-const Transactions = () => {
-  const [transactions, setTransactions] = useState<transaction[] | null>(null);
-  const { token } = useTokenChecker();
-
-  useEffect(() => {
-    const getTransactions = async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/transactions`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-        const data = await res.json();
-        setTransactions(data.transactions);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getTransactions();
-  }, [token]);
+const Transactions = ({ transactions }: TransactionsProps) => {
   return (
     <div className="flex h-4/5 w-full flex-col rounded-sm border p-2 lg:w-1/2 lg:p-6">
       <h2 className="border-b text-center text-2xl font-bold">Transactions</h2>
