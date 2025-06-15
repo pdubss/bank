@@ -1,8 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import Input from "../components/Input";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ResetPassword() {
+  const navigate = useNavigate();
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const {
@@ -55,6 +59,10 @@ export default function ResetPassword() {
             message: "Expired code",
           });
         }
+        if (response.ok) {
+          toast.success("Password changed");
+          navigate("/login");
+        }
       } catch (error) {
         console.error(error);
       }
@@ -68,6 +76,7 @@ export default function ResetPassword() {
 
   return (
     <div className="mx-auto flex flex-col items-center justify-center">
+      <ToastContainer position="top-center" />
       <h1 className="mb-10 text-2xl">Reset Password</h1>
       {emailSubmitted ? (
         <form
