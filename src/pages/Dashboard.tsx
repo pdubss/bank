@@ -250,11 +250,11 @@ export default function Dashboard() {
   }, [dispatch, user.email, navigate, token]);
 
   return (
-    <div className="md:4/5 mx-auto flex h-full w-full flex-col items-center gap-10 p-4 md:items-center md:justify-center lg:flex-row">
+    <div className="mx-auto flex h-full w-full flex-col items-center gap-10 p-4 md:w-4/5 md:items-center md:justify-center lg:flex-row">
       {userLoading ? (
         <Spinner />
       ) : (
-        <div className="flex h-4/5 w-[22rem] flex-col gap-10 border p-6 text-center">
+        <div className="flex max-h-[4/5] w-[22rem] flex-col gap-10 border p-6 text-center">
           <h2 className="border-b text-2xl font-bold">Account Details</h2>
           <h3 className="font-semibold">Account Number</h3>
           <p>{account.accountNumber}</p>
@@ -270,7 +270,7 @@ export default function Dashboard() {
           ) : null}
         </div>
       )}
-      <div className="flex h-4/5 w-[22rem] flex-col gap-20 border p-6 md:w-[30rem]">
+      <div className="flex max-h-[4/5] w-[22rem] flex-col gap-20 border p-6 md:w-[30rem]">
         <div>
           <h2 className="border-b text-center text-2xl font-bold">
             Action Center
