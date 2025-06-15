@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import useTokenChecker from "../utility/useTokenChecker";
 import { Link } from "react-router-dom";
 import Transactions from "../components/Transactions";
+import Spinner from "../components/Spinner";
 
 export interface Details {
   userAccountNumber: string;
@@ -46,6 +47,8 @@ export default function Dashboard() {
   const account = useSelector((store: RootState) => store.account);
   const dispatch = useDispatch();
 
+  const [userLoading, setUserLoading] = useState(false);
+  const [transactionsLoading, setTransactionsLoading] = useState(false);
   const [depositAmount, setDepositAmount] = useState(0);
   const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [loanAmount, setLoanAmount] = useState(0);
@@ -173,6 +176,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const getTransactions = async () => {
+      setTransactionsLoading(true);
       try {
         const res = await fetch(
           `${import.meta.env.VITE_API_URL}/transactions`,
@@ -186,6 +190,7 @@ export default function Dashboard() {
         );
         const data = await res.json();
         setTransactions(data.transactions);
+        setTransactionsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -208,6 +213,7 @@ export default function Dashboard() {
   }, [isValid, decodedToken, dispatch]);
 
   useEffect(() => {
+    setUserLoading(true);
     async function getUserInfo() {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/users/getOne`,
@@ -225,6 +231,7 @@ export default function Dashboard() {
       dispatch(
         setUser({ account_number, balance, loan_amount, loan_reason, id }),
       );
+      setUserLoading(false);
     }
 
     getUserInfo();
@@ -232,22 +239,25 @@ export default function Dashboard() {
 
   return (
     <div className="md:4/5 mx-auto flex h-full w-full flex-col items-center gap-10 p-4 md:items-center md:justify-center lg:flex-row">
-      <div className="flex h-4/5 w-[22rem] flex-col gap-10 border p-6 text-center">
-        <h2 className="border-b text-2xl font-bold">Account Details</h2>
-        <h3 className="font-semibold">Account Number</h3>
-        <p>{account.accountNumber}</p>
-        <h4 className="font-semibold">Total Funds</h4>
-        <span>${account.balance}</span>
-        {account.loan ? (
-          <>
-            <h4 className="font-semibold">Loan Balance</h4>
-            <span>${account.loan}</span>
-            <h4 className="font-semibold">Reason for Loan</h4>
-            <span>{account.loanPurpose}</span>
-          </>
-        ) : null}
-      </div>
-
+      {userLoading ? (
+        <Spinner />
+      ) : (
+        <div className="flex h-4/5 w-[22rem] flex-col gap-10 border p-6 text-center">
+          <h2 className="border-b text-2xl font-bold">Account Details</h2>
+          <h3 className="font-semibold">Account Number</h3>
+          <p>{account.accountNumber}</p>
+          <h4 className="font-semibold">Total Funds</h4>
+          <span>${account.balance}</span>
+          {account.loan ? (
+            <>
+              <h4 className="font-semibold">Loan Balance</h4>
+              <span>${account.loan}</span>
+              <h4 className="font-semibold">Reason for Loan</h4>
+              <span>{account.loanPurpose}</span>
+            </>
+          ) : null}
+        </div>
+      )}
       <div className="flex h-4/5 w-[22rem] flex-col gap-20 border p-6 md:w-[30rem]">
         <div>
           <h2 className="border-b text-center text-2xl font-bold">
@@ -342,7 +352,11 @@ export default function Dashboard() {
           </Link>
         </div>
       </div>
-      <Transactions transactions={transactions} />
+      {transactionsLoading ? (
+        <Spinner />
+      ) : (
+        <Transactions transactions={transactions} />
+      )}
     </div>
   );
 }
