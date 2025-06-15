@@ -19,10 +19,10 @@ export default function Header() {
     <header className="flex w-screen items-center justify-between bg-blue-600 p-4 text-white">
       <Link to="/dashboard">🏦 APP</Link>
       <div className="flex items-center gap-8">
-        <NavLink className="sm:hidden md:flex" to="/about">
+        <NavLink className="hidden sm:flex" to="/about">
           ABOUT
         </NavLink>
-        <NavLink className="sm:hidden md:flex" to="/tech">
+        <NavLink className="hidden sm:flex" to="/tech">
           TECH
         </NavLink>
         {user.isLoggedIn ? (
