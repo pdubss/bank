@@ -134,7 +134,7 @@ const CreateUser = () => {
           },
         })}
         label="Password"
-        type="text"
+        type="password"
       />
       {errors.password && (
         <p className="text-red-600">{errors.password.message} </p>
@@ -156,7 +156,7 @@ const CreateUser = () => {
           },
         })}
         label="SSN"
-        type="text"
+        type="password"
       />
       {errors.ssn && <p className="text-red-600">{errors.ssn.message}</p>}
       <div className="flex gap-3 uppercase">
