@@ -75,20 +75,20 @@ const Transaction = ({
 
   return (
     <li className="mb-3 grid grid-cols-[2fr_1fr_1fr_1fr] items-center rounded-md border p-1 lg:h-14 lg:p-2">
-      <span className="h-8">{convertedDate.toLocaleString()}</span>
+      <span>{convertedDate.toLocaleString()}</span>
       <span
         className={
           type === "deposit" ||
           type === "takeoutLoan" ||
           type === "transfer-received"
-            ? "h-8 text-green-500"
-            : "h-8 text-red-500"
+            ? "text-green-500"
+            : "text-red-500"
         }
       >
         {} ${amount}
       </span>
-      <span className="h-8">{convertedType}</span>
-      <span className="h-8 text-center">
+      <span>{convertedType}</span>
+      <span className="text-center">
         <Link
           to={`/transactions/${transactionID}`}
           className="inline-block rounded-md border bg-yellow-300 p-1 font-semibold"
