@@ -2,7 +2,7 @@ import pg from "pg";
 
 const pool = new pg.Pool({
   connectionString:
-    "postgresql://postgres:P57q2CsPUHrbFb4i@db.hemeefitmzeejzjrczbv.supabase.co:5432/postgres",
+    "postgresql://postgres.hemeefitmzeejzjrczbv:P57q2CsPUHrbFb4i@aws-0-us-east-2.pooler.supabase.com:6543/postgres",
   ssl: false,
 });
 
