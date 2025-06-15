@@ -7,14 +7,14 @@ interface TransactionsProps {
 
 const Transactions = ({ transactions }: TransactionsProps) => {
   return (
-    <div className="flex h-4/5 w-full flex-col overflow-scroll rounded-sm border p-2 lg:w-1/2 lg:p-6">
+    <div className="flex h-4/5 w-full flex-col rounded-sm border p-2 lg:w-1/2 lg:p-6">
       <h2 className="mb-3 border-b text-center text-2xl font-bold">
         Transactions
       </h2>
 
       <div className="my-auto flex flex-col">
         {transactions.length > 0 ? (
-          <ul>
+          <ul className="overflow-scroll">
             {transactions.map((transaction, index) => {
               return (
                 <Transaction
