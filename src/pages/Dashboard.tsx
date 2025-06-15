@@ -41,8 +41,8 @@ export default function Dashboard() {
   const account = useSelector((store: RootState) => store.account);
   const dispatch = useDispatch();
 
-  const [userLoading, setUserLoading] = useState(false);
-  const [transactionsLoading, setTransactionsLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
+  const [transactionsLoading, setTransactionsLoading] = useState(true);
   const [depositAmount, setDepositAmount] = useState(0);
   const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [loanAmount, setLoanAmount] = useState(0);
@@ -179,6 +179,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const getTransactions = async () => {
       setTransactionsLoading(true);
       try {
@@ -195,13 +196,14 @@ export default function Dashboard() {
         const data = await res.json();
         setTransactions(data.transactions);
       } catch (error) {
+        setTransactionsLoading(false);
         console.error("Fetching transactions failed", error);
       } finally {
         setTransactionsLoading(false);
       }
     };
     getTransactions();
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     if (isValid && decodedToken) {
@@ -362,10 +364,10 @@ export default function Dashboard() {
           </Link>
         </div>
       </div>
-      {!transactionsLoading && Array.isArray(transactions) ? (
-        <Transactions transactions={transactions} />
-      ) : (
+      {transactionsLoading ? (
         <Spinner />
+      ) : (
+        <Transactions transactions={transactions} />
       )}
     </div>
   );
