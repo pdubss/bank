@@ -7,12 +7,12 @@ interface TransactionsProps {
 
 const Transactions = ({ transactions }: TransactionsProps) => {
   return (
-    <div className="flex h-2/3 w-full flex-col rounded-sm border p-2 lg:w-1/2 lg:p-6">
+    <div className="flex h-3/4 w-full flex-col rounded-sm border p-2 lg:w-1/2 lg:p-6">
       <h2 className="mb-3 border-b text-center text-2xl font-bold">
         Transactions
       </h2>
 
-      <div className="flex max-h-[500px] flex-col justify-start overflow-y-scroll">
+      <div className="flex max-h-[550px] flex-col justify-start overflow-y-scroll">
         {transactions.length > 0 ? (
           <ul>
             {transactions.map((transaction, index) => {
@@ -74,13 +74,13 @@ const Transaction = ({
   }
 
   return (
-    <li className="mb-3 grid grid-cols-[2fr_1fr_1fr_1fr] items-center rounded-md border p-2 lg:h-14 lg:p-2">
+    <li className="mb-3 grid grid-cols-[2fr_1fr_1fr_1fr] items-center rounded-md border p-1 lg:h-14 lg:p-2">
       <span className="h-8">{convertedDate.toLocaleString()}</span>
       <span
         className={
           type === "deposit" ||
           type === "takeoutLoan" ||
-          type === "transfer-recieved"
+          type === "transfer-received"
             ? "h-8 text-green-500"
             : "h-8 text-red-500"
         }
