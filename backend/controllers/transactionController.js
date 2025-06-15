@@ -187,14 +187,8 @@ export const getTransactions = async (req, res) => {
       "SELECT transactions.recipient_id, transactions.amount, transactions.type, transactions.created_at, transactions.transaction_id, financialinfo.account_number, financialinfo.loan_reason FROM transactions JOIN financialinfo ON transactions.user_id = financialinfo.user_id WHERE transactions.user_id = $1",
       [id],
     );
-    if (response.rowCount === 0) {
-      return res
-        .status(404)
-        .json({ message: "User does not have any transactions" });
-    }
 
     const transactions = response.rows;
-    console.log(transactions);
     res.status(200).json({ transactions });
   } catch (error) {
     console.error(error);

@@ -76,10 +76,10 @@ export default function Dashboard() {
         setTransactions((prevTransactions) => [
           ...prevTransactions,
           {
-            amount: data.amount,
-            type: data.type,
-            created_at: data.created_at,
-            transaction_id: data.transaction_id,
+            amount: data.transaction.amount,
+            type: data.transaction.type,
+            created_at: data.transaction.created_at,
+            transaction_id: data.transaction.transaction_id,
           },
         ]);
       } catch (error) {
