@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const login = async (req, res, next) => {
+  console.log("hello from the backend");
   const { email, password } = req.body;
   try {
     const result = await pool.query(

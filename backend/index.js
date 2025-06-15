@@ -9,7 +9,7 @@ dotenv.config({ path: "../.env" });
 const app = express();
 
 //middleware
-app.use(cors());
+app.use(cors({ origin: "https://bank-04wm.onrender.com", credentials: true }));
 app.use(express.json()); // allows us to access req.body
 
 //routes
