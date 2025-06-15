@@ -168,7 +168,11 @@ export const transferSend = async (req, res) => {
     );
     const transaction = await pool.query(
       "INSERT INTO transactions (user_id, recipient_id, amount, type) VALUES ($1,$2,$3,$4) RETURNING transaction_id, created_at, amount, type",
-      [id, friendID, amount, "transfer"],
+      [id, friendID, amount, "transfer-sent"],
+    );
+    await pool.query(
+      "INSERT INTO transactions (sender_id, amount, type, user_id) VALUES ($1,$2,$3,$4)",
+      [id, amount, "transfer-recieved", friendID],
     );
 
     res.status(200).json({ transaction: transaction.rows[0] });
