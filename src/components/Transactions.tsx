@@ -74,7 +74,7 @@ const Transaction = ({
   }
 
   return (
-    <li className="mb-3 grid grid-cols-[2fr_1fr_1fr_1fr] items-center rounded-md border p-1 lg:h-14 lg:p-2">
+    <li className="mb-3 grid grid-cols-[2fr_1fr_1fr_1fr] items-center rounded-md border p-1 lg:h-14">
       <span>{convertedDate.toLocaleString()}</span>
       <span
         className={
