@@ -61,8 +61,11 @@ const TransactionDetails = () => {
       case "payLoan":
         convertedType = "Loan Payment";
         break;
-      case "transfer":
-        convertedType = "Transfer";
+      case "transfer-sent":
+        convertedType = "Transfer Sent";
+        break;
+      case "transfer-recieved":
+        convertedType = "Transfer Recieved";
     }
   }
 

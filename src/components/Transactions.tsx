@@ -75,7 +75,9 @@ const Transaction = ({
       <span className="h-8">{convertedDate.toLocaleString()}</span>
       <span
         className={
-          type === "deposit" || type === "takeoutLoan"
+          type === "deposit" ||
+          type === "takeoutLoan" ||
+          type === "transfer-recieved"
             ? "h-8 text-green-500"
             : "h-8 text-red-500"
         }
