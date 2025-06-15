@@ -74,6 +74,8 @@ export default function Dashboard() {
             }),
           },
         );
+        const data = await response.json();
+        console.log(data);
 
         if (response.ok) {
           dispatch(deposit({ amount: Number(depositAmount) }));
@@ -190,9 +192,10 @@ export default function Dashboard() {
         );
         const data = await res.json();
         setTransactions(data.transactions);
-        setTransactionsLoading(false);
       } catch (error) {
-        console.error(error);
+        console.error("Fetching transactions failed", error);
+      } finally {
+        setTransactionsLoading(false);
       }
     };
     getTransactions();
@@ -213,25 +216,30 @@ export default function Dashboard() {
   }, [isValid, decodedToken, dispatch]);
 
   useEffect(() => {
-    setUserLoading(true);
     async function getUserInfo() {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/users/getOne`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+      setUserLoading(true);
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/users/getOne`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ email: user.email }),
           },
-          body: JSON.stringify({ email: user.email }),
-        },
-      );
-      const { account_number, balance, loan_amount, loan_reason, id } =
-        await response.json();
-      dispatch(
-        setUser({ account_number, balance, loan_amount, loan_reason, id }),
-      );
-      setUserLoading(false);
+        );
+        const { account_number, balance, loan_amount, loan_reason, id } =
+          await response.json();
+        dispatch(
+          setUser({ account_number, balance, loan_amount, loan_reason, id }),
+        );
+      } catch (error) {
+        console.error("Fetching user financials failed", error);
+      } finally {
+        setUserLoading(false);
+      }
     }
 
     getUserInfo();

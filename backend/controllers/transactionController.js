@@ -2,7 +2,6 @@ import pool from "../server/db.js";
 
 export const deposit = async (req, res) => {
   const { depositAmount, email } = req.body;
-  console.log(depositAmount, email);
 
   if (!email || typeof depositAmount !== "number") {
     res.status(400).json({ error: "Invalid input" });
@@ -19,22 +18,18 @@ export const deposit = async (req, res) => {
 
     const id = userResult.rows[0].id;
 
-    const newBalance = await pool.query(
+    await pool.query(
       "UPDATE financialinfo SET balance = balance + $1 WHERE user_id = $2 returning balance",
       [depositAmount, id],
     );
 
-    if (newBalance.rowCount === 0) {
-      res.status(400).json({ error: "User financials not found" });
-    }
-    await pool.query(
-      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3)",
+    const transaction = await pool.query(
+      "INSERT INTO transactions (user_id, amount, type) VALUES ($1,$2,$3) RETURNING amount, type, created_at",
       [id, depositAmount, "deposit"],
     );
 
     res.status(200).json({
-      message: "Deposit successful",
-      newBalance: newBalance.rows[0],
+      transaction: transaction.rows[0],
     });
   } catch (error) {
     console.error(error);
